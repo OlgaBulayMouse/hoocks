@@ -3,13 +3,13 @@
 import {useState} from 'react';
 
 export const App = () => {
-    const [state, setState] = useState(0);
-    const handlerClick = () => {
-        setState(state + 1)
+    const [isActiv, setActive] = useState(false);
+    const colorControl = () => {
+        setActive(!isActiv)
     };
     return (
-        <div onClick={handlerClick}>
-            {state}
+        <div onClick={colorControl} style={{color: isActiv && 'red'}}>
+            Hello!
         </div>
     );
 };
