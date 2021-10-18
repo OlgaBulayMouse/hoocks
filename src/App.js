@@ -1,36 +1,32 @@
 //import logo from './logo.svg';
 //import './App.css';
 import {
-    useMemo,
     useState
 } from 'react';
 
-export const RandomNumber = ({isShowRandom}) => {
-    const r = useMemo(() => {
-        const Arr = [];
-        const NumsofArray = 9999999;
-        for (let i = 0; i < NumsofArray; i++) {
-            Arr.push(Math.random())
-        };
-        return [Math.round(Math.random() * NumsofArray)]
-    }, []);
+
+export const Users = (isShow) => {
+    let [users, setUsers] = useState([]);
+    if(!users.length) {
+        fetch('https://jsonplaceholder.typicode.com/users')
+        .then(res => res.json())
+        .then(data => {
+            //setUsers(data)
+        });
+    }
     return (
-        isShowRandom ? (
-        <div>
-            {r}
+        <div >
+            {isShow && users.map(user => user.name)}
         </div>
-        ) : null
     );
 };
+
 export const App = () => {
-    const [isShowRandom, setIsShowRandom] = useState(false);
-    const handlerClick = () => {
-        setIsShowRandom(!isShowRandom)
-    };
+const [isShow, setIsShow] = useState();
     return (
-        <div onClick={handlerClick}>
-            Hello! I am reactComponent!
-            <RandomNumber isShowRandom={isShowRandom}/>
+        <div onClick={() => setIsShow(!isShow)}>
+            {!isShow && 'Click to fetch users'}
+            <Users isShow={isShow}/>
         </div>
     );
 };
