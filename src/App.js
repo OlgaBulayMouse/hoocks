@@ -11,7 +11,7 @@ export const Users = (isShow) => {
         fetch('https://jsonplaceholder.typicode.com/users')
         .then(res => res.json())
         .then(data => {
-            //setUsers(data)
+            setUsers(data)
         });
     }
     return (
