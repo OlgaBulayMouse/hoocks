@@ -3,9 +3,15 @@ import {
     useState
 } from 'react';
 
+export const User = ({ name }) => {
+    return (
+        <li>
+            {name}
+        </li>
+    )
+}
 
-
-export const Users = (isShow) => {
+export const Users = () => {
     let [users, setUsers] = useState([]);
     useEffect(() => {
         fetch('https://jsonplaceholder.typicode.com/users')
@@ -15,18 +21,22 @@ export const Users = (isShow) => {
             }, []);
     });
     return (
-        <div >
-            {isShow && users.map(user => user.name)}
-        </div>
+        !users.length ? ('No users!') : (
+            <ul>
+                {users.map(user =>
+                    <User
+                        key={user.id}
+                        name={user.name}
+                    />)
+                }
+            </ul>)
     );
 };
 
 export const App = () => {
-    const [isShow, setIsShow] = useState();
     return (
-        <div onClick={() => setIsShow(!isShow)}>
-            {!isShow && 'Click to fetch users' ||
-            <Users isShow={isShow} />}
+        <div>
+            <Users />
         </div>
     );
 };
