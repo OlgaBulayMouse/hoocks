@@ -1,25 +1,66 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+    useEffect,
+    useState
+} from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+export const User = ({ id, name }) => {
+    const [data, setData] = useState();
+    const [isActive, setIsActive] = useState(false);
 
-export default App;
+    const handlerClick = () => {
+        setIsActive(!isActive);
+    };
+
+    useEffect(() => {
+        if (isActive) {
+            fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
+                .then(res => res.json())
+                .then(userData => {
+                    setData(userData)
+                }, [isActive, id])
+        }
+    });
+    return (
+        <li onClick={handlerClick}>
+            {name}
+
+            {isActive && data && (
+                <div>
+                    {data.email}
+                </div>
+            )}
+
+        </li>
+    )
+};
+
+export const Users = () => {
+    let [users, setUsers] = useState([]);
+    useEffect(() => {
+        fetch('https://jsonplaceholder.typicode.com/users')
+            .then(res => res.json())
+            .then(data => {
+                setUsers(data)
+            }, []);
+    });
+    return (
+        !users.length ? ('No users!') : (
+            <ul>
+                {users.map(user =>
+                    <User
+                        key={user.id}
+                        id={user.id}
+                        name={user.name}
+                    />)
+                }
+            </ul>)
+    );
+};
+
+export const App = () => {
+    return (
+        <div>
+            <Users />
+        </div>
+    );
+};
