@@ -2,6 +2,8 @@ import {
     useEffect,
     useState
 } from 'react';
+import {SortingControl} from './SortingControl';
+import {SELECT_STATES} from './consts';
 
 export const User = ({ id, name }) => {
     const [data, setData] = useState();
@@ -58,9 +60,14 @@ export const Users = () => {
 };
 
 export const App = () => {
+    const [sortBy, setSortBy] = useState(SELECT_STATES.DEFAULT);
+    const handlerChange = (e) => {
+        setSortBy(e.target.value)
+    };
     return (
         <div>
             <Users />
+            <SortingControl value={sortBy} setValue={handlerChange}/>
         </div>
     );
 };
