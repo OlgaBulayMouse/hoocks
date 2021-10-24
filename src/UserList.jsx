@@ -7,13 +7,14 @@ import { SELECT_STATES } from './consts';
 
 export const UserList = ({ sortBy }) => {
     let [users, setUsers] = useState([]);
-    const [favorites, setFavorites] = useState([]);
+    const [favorites, setFavorites] = useState({});
 
     const handlerAddToFavorites = id => {
-        const newFavorites = [...favorites];
-        newFavorites.push(id);
-        setFavorites(newFavorites)
-    }
+        setFavorites({
+            ...favorites,
+            [id]: true,
+        });
+    };
 
     const handler = () => {
         switch (sortBy) {
@@ -58,7 +59,8 @@ export const UserList = ({ sortBy }) => {
                         id={user.id}
                         name={user.name}
                         addToFavorites={handlerAddToFavorites}
-                        isFavorite={favorites.find(item => item === user.id)}
+                        isFavorite={favorites[user.id]}
+                       // isFavorite={favorites.find(userId => userId === user.id)}
                     />)
                 }
             </ul>)

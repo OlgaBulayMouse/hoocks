@@ -22,11 +22,11 @@ export const User = ({ id, name, addToFavorites, isFavorite }) => {
         }
     });
     return (
-        <li onClick={handlerClick}>
+        <li onClick={handlerClick}style={{color: isFavorite && 'red'}}>
             {name}
 
             {isActive && data && (
-                <div style={{color: 'red'}}>
+                <div style={{color: 'blue'}}>
                     {data.email}
                 </div>
             )}
