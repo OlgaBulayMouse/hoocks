@@ -3,11 +3,12 @@ import {
     useState
 } from 'react';
 
-export const User = ({ id, name }) => {
+export const User = ({ id, name, addToFavorites, isFavorite }) => {
     const [data, setData] = useState();
     const [isActive, setIsActive] = useState(false);
 
     const handlerClick = () => {
+        addToFavorites(id);
         setIsActive(!isActive);
     };
 
@@ -25,7 +26,7 @@ export const User = ({ id, name }) => {
             {name}
 
             {isActive && data && (
-                <div>
+                <div style={{color: 'red'}}>
                     {data.email}
                 </div>
             )}
