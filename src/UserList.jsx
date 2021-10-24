@@ -10,20 +10,30 @@ export const UserList = ({ sortBy }) => {
 
     const handler = () => {
         switch (sortBy) {
-
             case SELECT_STATES.INCREASE:
-                setUsers(users.sort((a, b) => a.name.localeCompare(b.name)))
+                setUsers(prevUsers => {
+                    const newUsers = [...prevUsers];
+                    newUsers.sort(
+                        (a, b) => a.name.localeCompare(b.name));
+                    return newUsers;
+                });
                 break;
+
             case SELECT_STATES.DECREASE:
-                setUsers(users.sort((a, b) => b.name.localeCompare(a.name)))
+                setUsers(prevUsers => {
+                    const newUsers = [...prevUsers];
+                    newUsers.sort(
+                        (a, b) => b.name.localeCompare(a.name));
+                    return newUsers;
+                });
                 break;
             case SELECT_STATES.DEFAULT:
-            default:
-                break;
+                default:
+                    break;
         };
     };
 
-    useEffect(handler, [sortBy, users]);
+    useEffect(handler, [sortBy]);
 
     useEffect(() => {
         fetch('https://jsonplaceholder.typicode.com/users')
